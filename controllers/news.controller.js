@@ -1,10 +1,12 @@
 const newsModel = require('../models/news.models')
 const storyModel = require('../models/storypart.models')
 module.exports = {
-    topStory: async(params) =>{
+    topStory: async(decoded,params) =>{
         console.log(params);
+        console.log(decoded);
         const result = await newsModel.create({
             title:params.title,
+            user:decoded,
             author:params.author,
             storyText:params.storyText,
             storyForm:params.storyForm,
@@ -63,6 +65,15 @@ module.exports = {
       },
       getStoryPosts:async(params) =>{
         const result = await newsModel.find({storyForm:params}).sort({"createdAt":-1}).limit(4);
+        return result;
+      },
+      getDiscussions: async(params) =>{
+        const result = await newsModel.find({storyForm:params}).sort({"createdAt":-1});
+        return result;
+      },
+      getUserPosts:async(params)=>{
+        const result = await newsModel.find({user:params}).sort({"createdAt":-1});
+        console.log(result);
         return result;
       }
       

@@ -7,7 +7,7 @@ const upload = require('../lib/upload')
 
 router.post('/topStory', verifyToken, async(req,res)=>{
     try{
-        const result = await newsController.topStory(req.body);
+        const result = await newsController.topStory(req.decoded,req.body);
         res.json(jsonResponse(result));
 
     }catch(err){
@@ -71,5 +71,22 @@ router.get('/stories/:storyType', async(req,res)=>{
         res.json(jsonResponse(err.message,false));
     }
 })
+router.get('/discussions/:storyType', async(req,res)=>{
+    try{
+        const result = await newsController.getDiscussions(req.params.storyType);
+        res.json(jsonResponse(result));
 
+    }catch(err){
+        res.json(jsonResponse(err.message,false));
+    }
+})
+router.get('/userPosts/:id', async(req,res)=>{
+    try{
+        const result = await newsController.getUserPosts(req.params.id);
+        res.json(jsonResponse(result));
+
+    }catch(err){
+        res.json(jsonResponse(err.message,false));
+    }
+})
 module.exports = router;

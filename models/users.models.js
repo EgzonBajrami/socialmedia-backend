@@ -13,7 +13,15 @@ const userSchema = new mongoose.Schema({
 
     age:{type:Number, min:18},
     password:{type:String, required:true},
-    role:{type:String, required:true}   
+    role:{type:String, required:true},
+    avatar: {
+               
+                
+        type: String,
+         trim: true,
+         default: 'https://imgur.com/WP6Xmtl.png',
+     
+     },
     
 },{
     timestamps:true,

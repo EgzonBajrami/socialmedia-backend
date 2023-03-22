@@ -3,6 +3,7 @@ var router = express.Router();
 const {jsonResponse} = require('../lib/helper')
 const userController = require('../controllers/user.controller')
 const authController = require('../controllers/auth.controller')
+const upload = require('../lib/upload')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -24,6 +25,24 @@ router.post('/login', async(req,res)=>{
     const result = await authController.login(req.body);
     res.json(jsonResponse(result));
     
+
+  }catch(err){
+    res.json(jsonResponse(err.message,false));
+  }
+})
+router.get('/user/:id', async(req,res)=>{
+  try{
+    const result = await userController.findUser(req.params.id);
+    res.json(jsonResponse(result));
+
+  }catch(err){
+    res.json(jsonResponse(err.message,false));
+  }
+})
+router.post('/changeImage/:id', upload.single('user-image'), async(req,res)=>{
+  try{
+    const result = await userController.changeUserImage(req.params.id, req.file);
+    res.json(jsonResponse(result));
 
   }catch(err){
     res.json(jsonResponse(err.message,false));
